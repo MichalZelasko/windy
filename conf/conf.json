@@ -1,0 +1,66 @@
+{
+    "screenshoot": {
+        "do_screenshot": false,
+        "url": "https://www.windy.com/pl/-Radar-pogodowy-radar?radar,54.632,13.964,7,m:e02agSR",
+        "url_map": "https://www.windy.com/pl/-Fale-waves?waves,2024072615,54.632,13.964,7,i:pressure,m:e02agSR",
+        "delay_1": 10,
+        "delay_2": 4,
+        "screenshot_number": 10,
+        "screenshot_time": 7,
+        "do_convert": false
+    },
+
+    "filepaths": {
+        "resource": "../resources/raw_picture_4",
+        "path": "../resources/pictures_4",
+        "map": "../resources/maps/Map_tmp.png",
+        "animation": "../output/animation_4.gif"
+    },
+
+    "picture_setting": {
+        "grey_difference": 32,
+        "image_size": 1920,
+        "x_a": null,
+        "x_b": null,
+        "y_a": null,
+        "y_b": null
+    },
+
+    "cluster": {
+        "eps_coeff": 1.41,
+        "mixed_coeff": 1.41,
+        "clusterize_depth": 4,
+        "kmeans_first": true,
+        "n_clusters": 2,
+        "option_clust": "dbscan"
+    },    
+
+    "colormap": {
+        "step_1": 20,
+        "step_2": 40,
+        "step_3": 60,
+        "half_way": 30
+    },
+
+    "sampling": {
+        "prob": 0.1,
+        "scale": 300
+    },
+
+    "extrapolation": {
+        "option_pos": "aproximation", 
+        "option": "aproximation", 
+        "k": 3, 
+        "func": "hyberbolic",
+        "move_coeff": 0.75
+    },
+
+    "visualization": {
+        "do_draw_clusters": false,
+        "do_draw_elbow_graph": false,
+        "do_draw_graph": false,
+        "do_draw_cluster_centers": false,
+        "vis_coeff": 1,
+        "t_coeff": 0.25
+    }    
+}
