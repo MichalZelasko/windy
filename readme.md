@@ -6,25 +6,25 @@ W celu instalacji aplikacji należy pobrać kod z serwisu github (w postaci arch
 
 Alternatywnie można pobrać zawartość całego repozytorium za pomocą linii komend wykorzystując polecenie:
 
-'''
+```
 gh repo clone MichalZelasko/windy
-'''
+```
 
 ## Requirements
 
 Oprogramowanie zostało napisane w pythonie, dlatego niezbędne jest zainstalowanie na komputerze aktualnej wesji interpretera. Kolejnym krokiem niezbędnym do uruchomienia aplikacji jest instalacja/uaktualnienie bibliotek. 
 
-'''
+```
 pip install -r requirements.txt
-'''
+```
 
 ## Running
 
 Aplikację można uruchomić po przejściu do katalogu ./code z pomocą polecenia:
 
-'''
+```
 python app.py
-'''
+```
 
 # Description
 
