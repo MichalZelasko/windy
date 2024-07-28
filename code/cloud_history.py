@@ -117,12 +117,16 @@ class CloudHistory:
             weights[idx_4] += 0.125 * min(60.0, max(0.0, weights_set[j]))
         return weights
     
-    def draw_circle(self, cloud, i):
+    def draw_circle(self, cloud, t, i):
         theta = np.linspace(0, 2 * np.pi, 150)
+        dx = self.dx * (t - self.cloud[-1][0].time) / self.dt
+        dy = self.dy * (t - self.cloud[-1][0].time) / self.dt
+        x = cloud.x + move_coeff * (cloud.x_future[i] - self.x) + (1 - move_coeff) * dx
+        y = cloud.x + move_coeff * (cloud.x_future[i] - self.x) + (1 - move_coeff) * dy
         s = image_size / scale
         a = np.mean(cloud.sizes_future[i]) * np.cos(theta)
         b = np.mean(cloud.sizes_future[i]) * np.sin(theta)
-        plt.plot(s * (cloud.y_future[i] + a), s * (cloud.x_future[i] + b))
+        plt.plot(s * (y + a), s * (x + b))
     
     def visualize_points(self, t, i):
         points, weights = self.generate_mesh_grid(), np.zeros(int(self.x_size / vis_coeff) * int(self.y_size / vis_coeff))
@@ -131,7 +135,7 @@ class CloudHistory:
             weights_set = cloud.compute_weights(t, i, t_coeff)
             weights = self.set_point_weights(points_set, weights_set, weights)
             if do_draw_cluster_centers:
-                self.draw_circle(cloud, i)
+                self.draw_circle(cloud, t, i)
         points, weights = self.filter_points(points, weights)
         points, weights = self.validate_points(points, weights)
         plt.scatter(points[:,1] * image_size / scale, points[:,0] * image_size / scale, s=np.ones(points.shape[0]), c=weights, cmap="jet")
@@ -228,5 +232,6 @@ def isolate_cloud_history(option_clust = "mixed", option_pos = "linear", option 
     if do_draw_graph: 
         cloud_history.plot_graph()
     cloud_history.actualize_history()
-    cloud_history.plot_extrapolation(np.linspace(0, 72, 37), option_pos=option_pos, option=option, k=k, func=func)
+    if do_plot_extrapolation:
+        cloud_history.plot_extrapolation(np.linspace(0, extr_stop, extr_stop // extr_step), option_pos=option_pos, option=option, k=k, func=func)
     cloud_history.animate(option_pos=option_pos, option=option, k=k, func=func, x_a = x_a, x_b = x_b, y_a = y_a, y_b = y_b)

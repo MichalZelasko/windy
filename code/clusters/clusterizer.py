@@ -168,7 +168,7 @@ def clusterize(X, weights, option = "Hierarchical"):
     if option.lower() == "DBSCAN".lower():
         y = clusterize_dbscan(X)
     elif option.lower() == "KMEANS".lower():
-        y = clusterize_kmeans(X)
+        y = clusterize_kmeans(X, start=elbow_start, stop=elbow_stop, step=elbow_step)
     elif option.lower() == "Hierarchical".lower():
         y, X, weights = clusterize_hierarchical(X, weights, depth=clusterize_depth, kmeans_first=kmeans_first, n_clusters=n_clusters)
     else:

@@ -156,7 +156,9 @@ class Cloud:
         future_size = np.mean(self.sizes_future[idx])
         actual_size = np.mean(self.size_array)
         c = (100.0 - t_coeff * time) / 100.0
-        weights = self.weights * np.sqrt(max(0.0, c * self.power_future[idx] / self.power))
+        p = self.power_future[idx]
+        if p < 1.0: p = np.exp(p - 1)
+        weights = self.weights * np.sqrt(max(0.0, c * p / self.power))
         weights = np.where(weights > 60.0, 60.0, weights)
         weights = np.where(weights < 0.0, 0.0, weights)
         weights = weights * ((actual_size ** 2) / (future_size ** 2))        
