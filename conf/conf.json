@@ -11,8 +11,8 @@
     },
 
     "filepaths": {
-        "resource": "../resources/raw_picture_4",
-        "path": "../resources/pictures_4",
+        "resource": "../resources/raw_picture",
+        "path": "../resources/pictures",
         "map": "../resources/maps/Map_tmp.png",
         "animation": "../output/animation_4.gif"
     },
@@ -26,13 +26,21 @@
         "y_b": null
     },
 
+    "sampling": {
+        "prob": 0.1,
+        "scale": 300
+    },
+
     "cluster": {
+        "elbow_start": 2,
+        "elbow_stop": 50,
+        "elbow_step": 4,
         "eps_coeff": 1.41,
         "mixed_coeff": 1.41,
         "clusterize_depth": 4,
         "kmeans_first": true,
         "n_clusters": 2,
-        "option_clust": "dbscan"
+        "option_clust": "hierarchical"
     },    
 
     "colormap": {
@@ -42,24 +50,22 @@
         "half_way": 30
     },
 
-    "sampling": {
-        "prob": 0.1,
-        "scale": 300
-    },
-
     "extrapolation": {
         "option_pos": "aproximation", 
         "option": "aproximation", 
         "k": 3, 
         "func": "hyberbolic",
-        "move_coeff": 0.75
+        "extr_stop": 60,
+        "extr_step": 2
     },
 
     "visualization": {
         "do_draw_clusters": false,
         "do_draw_elbow_graph": false,
         "do_draw_graph": false,
-        "do_draw_cluster_centers": false,
+        "do_draw_cluster_centers": true,
+        "do_plot_extrapolation": false,
+        "move_coeff": 0.75,
         "vis_coeff": 1,
         "t_coeff": 0.25
     }    
