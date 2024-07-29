@@ -103,7 +103,7 @@ Animacja ekstrapoloacji z wykorzystaniem ilorazu wielomianów:
 
 ## Wizualizacja i animacja
 
-Podstawowa animacja obejmuje przedstawienie wyekstrapolowanego rozwoju opadów w postaci pliku .gif z wykorzystaniem skali barwnej *jet* z bilioteki Matplotlib. Poszczególne klatki animacji powstają poprzez naniesienie punktów wchodzących w skład klastrów (przesuniętych zgodnie z przemieszczeniem i zmianą rozmiaru klastrów). Przyjęto, że odległość danego punktu od środka ciężkości klastra zmienia się proporcjonalnie do rozmiaru klastra (przesunięcię środka klastra wynika z ekstrapolacji i ogólnej tendencji do przemieszczania się chmur, relacja pomiędzy tymi przesunięciami definiowana jest poprzez parametr *move_coeff*). Intensywność opadów w danym punkcie zależy proporcjonalnie do wyekstrapolowanej mocy klastra (power) i odwrotnie proporcjonalnie do kwadratu rozmiaru klastra (moc klastra trakujemy jako całkę do intensywności opadów, dlatego wzrost obszaru zajmowanego przez klaster musi wiązać się z odwrotnie proporcjonalnym spadkiem intensywności opadów w poszczególnych punktach). Dodatkowo wprowadzono parametr t_ceoff - reprezentujący tłumienie rozwoju burz w czasie (wartość 0 - oznacza, że intensywność opadu w czasie nie ulega spadkowi względem wartości wyekstrapolaowanej, wartość 1 - ozancza, że opad zanika po 100 minutach - krótkotrwały opad burzowy). Do konstruowania animacji wykorzystano bibliotekę celluloid 0.2.0 (https://github.com/jwkvam/celluloid).
+Podstawowa animacja obejmuje przedstawienie wyekstrapolowanego rozwoju opadów w postaci pliku .gif z wykorzystaniem skali barwnej *jet* z bilioteki Matplotlib. Poszczególne klatki animacji powstają poprzez naniesienie punktów wchodzących w skład klastrów (przesuniętych zgodnie z przemieszczeniem i zmianą rozmiaru klastrów). Przyjęto, że odległość danego punktu od środka ciężkości klastra zmienia się proporcjonalnie do rozmiaru klastra (przesunięcię środka klastra wynika z ekstrapolacji i ogólnej tendencji do przemieszczania się chmur, relacja pomiędzy tymi przesunięciami definiowana jest poprzez parametr *move_coeff*). Intensywność opadów w danym punkcie zależy proporcjonalnie do wyekstrapolowanej mocy klastra (power) i odwrotnie proporcjonalnie do kwadratu rozmiaru klastra (moc klastra trakujemy jako całkę do intensywności opadów, dlatego wzrost obszaru zajmowanego przez klaster musi wiązać się z odwrotnie proporcjonalnym spadkiem intensywności opadów w poszczególnych punktach). Dodatkowo wprowadzono parametr *t_ceoff* - reprezentujący tłumienie rozwoju burz w czasie (wartość 0 - oznacza, że intensywność opadu w czasie nie ulega spadkowi względem wartości wyekstrapolaowanej, wartość 1 - ozancza, że opad zanika po 100 minutach - krótkotrwały opad burzowy). Do konstruowania animacji wykorzystano bibliotekę celluloid 0.2.0 (https://github.com/jwkvam/celluloid).
 
 Dodatkowo w ramach wizualizacji można skonfigurować możliwość tworzenia rysunków przedstawiających:
 * podział wejściowych map na klastry, 
@@ -113,3 +113,68 @@ Dodatkowo w ramach wizualizacji można skonfigurować możliwość tworzenia rys
 * położenie klastrów w trakcie ekstrapolacji.
 
 # Configuration
+
+Plik konfiguracyjny ("./conf/coonf.json") umożliwia dopasowanie parametrów sterujących działaniem aplikacji do potrzeb. Modyfikowane mogą być następujące zmienne:
+
+* "screenshoot" - parametry konfigurujące wykonywanie zrzutów ekranu:
+    - "do_screenshot": true | **false** - czy wykonywać zrzuty ekranu z portalu https://www.windy.com/pl/-Radar-pogodowy-radar?radar,
+    - "url": **"https://www.windy.com/pl/-Radar-pogodowy-radar?radar,54.632,13.964,7,m:e02agSR"** - adres url, z którego pobierane są mapy opadów,
+    - "url_map": **"https://www.windy.com/pl/-Fale-waves?waves,2024072615,54.632,13.964,7,i:pressure,m:e02agSR"** - adres url, z którego pobierana jest pusta mapa (tło),
+    - "delay_1": int | float (default: **10**) - wartość opóźnienia, po którym następuje uruchomienie animacji na stronie internetowej od pojawienia się okna przeglądarki,
+    - "delay_2": int | float (default: **4**) - wartość opóźnienia od uruchomienia animacji do wykonania pierwszego zrzutu ekranu,
+    - "screenshot_number": int (default: **10**) - liczba wykonywanych zrzutów ekranu,
+    - "screenshot_time": int | float (default: **7**) - czas na wykonanie wszystkich zrzutów ekranów,
+    - "do_convert": true | **false** - czy wykonywać konwersję plików z katalogu *resource*.
+
+* "filepaths" - ścieżki do plików i katalogów:
+    - "resource": "../resources/raw_picture" - ścieżka do katalogu ze screenshotami strony internetowej,
+    - "path": "../resources/pictures" - ścieżka do katalogu ze skonwertowanymi plikami,
+    - "map": "../resources/maps/Map_tmp.png" - ścieżka do pliku zawierającego mapę stanowiącą tło animacji (rozszerzenie .png),
+    - "animation": "../output/animation_4.gif" - ścieżka do pliku będącego animację przedstawiąjącą wyniki ekstrapolacji rozwoju opadów (rozszerzenie .gif).
+
+* "picture_setting" - parametry sterujące konwertowaniem screenshotów do formy wykorzystywanej przez animację:
+    - "grey_difference": int (default: **32**) - maksymalna różnica pomiędzy poszczególnymi składowymi RGB tak by piksel został oceniony jako szary (nie reprezentujący intensywności opadu),
+    - "image_size": int (default: **1920**) - rozmiar obrazu,
+    - "x_a": **null** | int - górny margines,
+    - "x_b": **null** | int - dolny margines,
+    - "y_a": **null** | int - lewy margines,
+    - "y_b": **null** | int - prawy margines.
+
+* "colormap" - parametry sterujące wykrywaniem stref opadów i określeniem ich intensywności:
+    - "step_1": 20,
+    - "step_2": 40,
+    - "step_3": 60,
+    - "half_way": 30.
+
+* "sampling" - parametryzacja próbkowania zbioru punktów:
+    - "prob": float (default: **0.1**) - ułamek liczby punktów uwzględnianych przy klasteryzacji,
+    - "scale": float (default: **300**) - skala (właściwa skala oblicza jako scale / image_size).
+
+* "cluster" - parametry sterujące procesem klasteryzacji (wykrywania strefopadów/burz):
+    - "elbow_start": int (default: **2**) - najmniejsza liczba klastrów analizowana w ramach metody łokciowej,
+    - "elbow_stop": int (default: **50**) - największa liczba klastrów analizowana w ramach metody łokciowej,
+    - "elbow_step": int (default: **4**) - krok w metodzie łokciowej,
+    - "eps_coeff": float (default: **1.41**) - współczynnik *eps* w metodzie DBSCAN,
+    - "mixed_coeff": (default: **1.41**) - 1 / *mixed_coeff* oznacza ułamek (w metodzie *mixed*) liczby klastrów wskazanych przez metodę DBSCAN, za pomocą których inicjalizowana jest metoda KMeans,
+    - "clusterize_depth": int (default: **4**) - głębokość drzewa w podziale na klastry za pomocą metody hierarchicznej,
+    - "kmeans_first": **true** | false - przy zastosowaniu metody *hierarchical* informacja czy metoda KMeans jest wykorzystywana jako pierwsza,
+    - "n_clusters": int (default: **2**) - liczba klastrów, na które dzielony jest podzbiór punktów w metodzie hierarchicznej na etapie wykorzystującym metodę KMeans,
+    - "option_clust": **"mixed"** | "kmeans" | "dbscan" | "hierarchical" - metoda klasteryzacji.
+
+* "extrapolation" - parametry sterujące procesem ekstrapolacji:
+    - "option_pos": **"linear"** | "noncubic" | "slinear" | "quadratic" | "cubic" | "cubicspline" | "polynomial" | "aproximation" - sposób ekstrapolacji pozycji środków ciężkości klastrów, 
+    - "option": **"linear"** | "noncubic" | "cubicspline" | "polynomial" | "aproximation" - sposób ekstrapolacji siły (power) klastrów i ich rozmiaru, 
+    - "k": int (default: **3**) - przybliżenie przy ekstrapolacji z pomocą rozwinięcia w szereg Taylora, 
+    - "func": **"hyperbolic"** | "linear" | "square" | "polynomial" | "division" | "taylor" - rodzaj funkcji wykorzystywanej przy wybraniu opcji *aproximation*,
+    - "extr_stop": int (default: **60**) - maksymalny czas, dla którego wykonywana jest ekstrapolocja,
+    - "extr_step": int (default: **2**) - krok czasowy - co ile minut wykonywana jest mapa przedstawiająca ekstrapolację opadów.
+
+* "visualization" - parametry sterujące procesem wizualizacji:
+    - "do_draw_clusters": true | **false** - czy wizualizować klastry na mapach wejściowych,
+    - "do_draw_elbow_graph": true | **false** - czy pokazać wykres przedstawiający jakość klasteryzacji w metodzie łokciowej,
+    - "do_draw_graph": true | **false** - czy wizualizować graf relacji pomiędzy klastrami,
+    - "do_draw_cluster_centers": true | **false** - czy nanosić na mapę ekstrapolacji położenia klastrów,
+    - "do_plot_extrapolation": true | **false** - czy wizualizować w postaci wykresów wyniki ekstrpolacji (cechy poszczególnych klastrów),
+    - "move_coeff": float (default: **0.75**) - waga wyniku ekstrapolacji w stosunku do ogólnego przemiszczenia (wiatr) przy obliczaniu położenia poszczeólnych punktów,
+    - "vis_coeff": int (default: **1**) - współczynnik określający zagęszczenie punktów na animacji (1 - gęstość maksymalna),
+    - "t_coeff": float (default: **0.25**) - współczynnik zanikania opadów (wartość 0 - oznacza, że intensywność opadu w czasie nie ulega spadkowi względem wartości wyekstrapolaowanej, wartość 1 - ozancza, że opad zanika po 100 minutach - krótkotrwały opad burzowy).
