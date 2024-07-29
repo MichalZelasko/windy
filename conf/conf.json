@@ -40,7 +40,7 @@
         "clusterize_depth": 4,
         "kmeans_first": true,
         "n_clusters": 2,
-        "option_clust": "hierarchical"
+        "option_clust": "mixed"
     },    
 
     "colormap": {
@@ -51,10 +51,10 @@
     },
 
     "extrapolation": {
-        "option_pos": "aproximation", 
-        "option": "aproximation", 
+        "option_pos": "linear", 
+        "option": "linear", 
         "k": 3, 
-        "func": "hyberbolic",
+        "func": "hyperbolic",
         "extr_stop": 60,
         "extr_step": 2
     },
