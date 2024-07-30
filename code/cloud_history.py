@@ -119,14 +119,19 @@ class CloudHistory:
     
     def draw_circle(self, cloud, t, i):
         theta = np.linspace(0, 2 * np.pi, 150)
-        dx = self.dx * (t - self.cloud[-1][0].time) / self.dt
-        dy = self.dy * (t - self.cloud[-1][0].time) / self.dt
-        x = cloud.x + move_coeff * (cloud.x_future[i] - self.x) + (1 - move_coeff) * dx
-        y = cloud.x + move_coeff * (cloud.x_future[i] - self.x) + (1 - move_coeff) * dy
+        dx = self.dx * (t - self.history[-1][0].time) / self.dt
+        dy = self.dy * (t - self.history[-1][0].time) / self.dt
+        x = cloud.x + move_coeff * (cloud.x_future[i] - cloud.x) + (1 - move_coeff) * dx
+        y = cloud.y + move_coeff * (cloud.y_future[i] - cloud.y) + (1 - move_coeff) * dy
         s = image_size / scale
-        a = np.mean(cloud.sizes_future[i]) * np.cos(theta)
-        b = np.mean(cloud.sizes_future[i]) * np.sin(theta)
-        plt.plot(s * (y + a), s * (x + b))
+        r = np.mean(cloud.sizes_future[i])
+        a = r * np.cos(theta)
+        b = r * np.sin(theta)
+        image = Image.open(map_filepath)
+        plt.xlim((0, 0.75 * image.size[0]))
+        plt.ylim((0, 0.77 * image.size[1]))
+        if y - r > 0 and y + r < image.size[0] and x - r > 0 and x + r < image.size[1]:
+            plt.plot(s * (y + a), s * (x + b))
     
     def visualize_points(self, t, i):
         points, weights = self.generate_mesh_grid(), np.zeros(int(self.x_size / vis_coeff) * int(self.y_size / vis_coeff))
